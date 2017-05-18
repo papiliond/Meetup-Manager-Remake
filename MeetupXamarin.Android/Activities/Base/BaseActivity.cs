@@ -6,13 +6,17 @@ using MeetupXamarin.Navigation;
 using Android.App;
 using Android.Views;
 using MeetupXamarin.Core.ViewModels;
+using Toolbar = Android.Support.V7.Widget.Toolbar;
+using Android.Support.V7.App;
 
 namespace MeetupXamarin.Android.Activities
 {
-    public abstract class BaseActivity : Activity
+    public abstract class BaseActivity : AppCompatActivity
     {
-        public object DataContext { get; set; }
-        public ProgressDialog ProgressDialog { get; set; }
+        protected object DataContext { get; set; }
+        protected ProgressDialog ProgressDialog { get; set; }
+        protected Toolbar Toolbar { get; set; }
+        protected bool usesToolbar { get; set; } = true;
 
         public BaseActivity()
         {
@@ -36,6 +40,40 @@ namespace MeetupXamarin.Android.Activities
             DataContext = Activator.CreateInstance(vmAssembly, vmNamespace).Unwrap();
         }
 
+        protected void SetUpProgressDialog(Activity activity, string message)
+        {
+            ProgressDialog = new ProgressDialog(activity);
+            ProgressDialog.SetProgressStyle(ProgressDialogStyle.Spinner);
+            ProgressDialog.Indeterminate = true;
+            ProgressDialog.SetCancelable(false);
+            ProgressDialog.SetMessage(message);
+        }
+
+        protected void SetActivityContentView(int layoutResId)
+        {
+            View view = LayoutInflater.Inflate(layoutResId, null);
+            SetUpToolbar(view);
+            base.SetContentView(view);
+        }
+
+        protected void SetUpToolbar(View view)
+        {
+            Toolbar = view.FindViewById<Toolbar>(Resource.Id.support_toolbar);
+            if (Toolbar != null)
+            {
+                if (usesToolbar)
+                {
+                    SetSupportActionBar(Toolbar);
+                    SupportActionBar.Title = Title == null ? null : Title;
+
+                    SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+                    SupportActionBar.SetHomeButtonEnabled(true);
+                }
+                else
+                    Toolbar.Visibility = ViewStates.Gone;
+            }
+        }
+
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.menu, menu);
@@ -44,6 +82,11 @@ namespace MeetupXamarin.Android.Activities
 
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
+            if (item.ItemId == global::Android.Resource.Id.Home)
+            {
+                Finish();
+            }
+
             return base.OnOptionsItemSelected(item);
         }
 
@@ -57,15 +100,6 @@ namespace MeetupXamarin.Android.Activities
         {
             if (ProgressDialog != null)
                 ProgressDialog.Hide();
-        }
-
-        public void SetUpProgressDialog(Activity activity, string message)
-        {
-            ProgressDialog = new ProgressDialog(activity);
-            ProgressDialog.SetProgressStyle(ProgressDialogStyle.Spinner);
-            ProgressDialog.Indeterminate = true;
-            ProgressDialog.SetCancelable(false);
-            ProgressDialog.SetMessage(message);
         }
 
     }

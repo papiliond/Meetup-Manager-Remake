@@ -169,11 +169,11 @@
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\ImageFormatter.cs" />
     <Compile Include="Helpers\TextFormatter.cs" />
+    <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Services\Login.cs" />
     <Compile Include="Navigation\ICurrentActivityHolder.cs" />
     <Compile Include="Navigation\NavigationService.cs" />
     <Compile Include="Navigation\ViewType.cs" />
-    <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\MessageDialog.cs" />
   </ItemGroup>
@@ -364,11 +364,6 @@
     <AndroidResource Include="Resources\values\strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\values\styles.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_settings.png" />
   </ItemGroup>
   <ItemGroup>
@@ -400,6 +395,11 @@
       <Project>{388ac169-4251-4020-a9fc-1c69e5049fbb}</Project>
       <Name>MeetupXamarin.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\style.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

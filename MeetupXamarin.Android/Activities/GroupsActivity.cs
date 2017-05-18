@@ -5,6 +5,7 @@ using MeetupXamarin.Core.Helpers;
 using System.Timers;
 using Android.Widget;
 using MeetupXamarin.Android.Adapters;
+using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace MeetupXamarin.Android.Activities
 {
@@ -18,18 +19,16 @@ namespace MeetupXamarin.Android.Activities
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.Groups);
+            Title = "Groups";
+            SetActivityContentView(Resource.Layout.Groups);
+            SetUpProgressDialog(this, "Loading Groups...");
 
             ViewModel = (GroupsViewModel)DataContext;
             managerMode = Settings.OrganizerMode;
-
             ListView = FindViewById<ListView>(Resource.Id.groupsList);
+
             GroupsAdapter groupsAdapter = new GroupsAdapter(this, ViewModel.Groups);
             ListView.Adapter = groupsAdapter;
-
-            SetUpProgressDialog(this, "Loading Groups...");
-            SetActionBar(FindViewById<Toolbar>(Resource.Id.support_toolbar));
-            ActionBar.Title = "Groups";
 
             ViewModel.Groups.CollectionChanged += (s, e) =>
             {

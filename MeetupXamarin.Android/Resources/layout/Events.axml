@@ -5,9 +5,7 @@
     android:layout_height="match_parent">
     <include
         android:id="@+id/support_toolbar"
-        layout="@layout/toolbar"
-        title="Meetup"
-        android:layout_width="match_parent" />
+        layout="@layout/toolbar" />
     <ListView
         android:id="@+id/eventsList"
         android:layout_width="match_parent"

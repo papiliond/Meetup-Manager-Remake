@@ -3096,11 +3096,14 @@ namespace MeetupXamarin.Android
 			// aapt resource value: 0x7f070084
 			public const int Base_Widget_AppCompat_Toolbar_Button_Navigation = 2131165316;
 			
-			// aapt resource value: 0x7f07015f
-			public const int MyTheme = 2131165535;
-			
 			// aapt resource value: 0x7f070160
-			public const int MyTheme_Splash = 2131165536;
+			public const int MyTheme = 2131165536;
+			
+			// aapt resource value: 0x7f07015f
+			public const int MyTheme_Base = 2131165535;
+			
+			// aapt resource value: 0x7f070161
+			public const int MyTheme_Splash = 2131165537;
 			
 			// aapt resource value: 0x7f07001e
 			public const int Platform_AppCompat = 2131165214;

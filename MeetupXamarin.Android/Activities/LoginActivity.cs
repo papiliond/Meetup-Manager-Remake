@@ -6,6 +6,7 @@ using MeetupXamarin.Core.ViewModels;
 using Xamarin.Auth;
 using System;
 using Android.Content;
+using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace MeetupXamarin.Android.Activities
 {
@@ -13,16 +14,15 @@ namespace MeetupXamarin.Android.Activities
     public class LoginActivity : BaseActivity
     {
         LoginViewModel ViewModel;
-        bool LoginInProgress;
+        bool LoginInProgress = false;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.Login);
-            ViewModel = (LoginViewModel)DataContext;
+            Title = "Meetup Manager";
+            SetActivityContentView(Resource.Layout.Login);
 
-            SetActionBar(FindViewById<Toolbar>(Resource.Id.support_toolbar));
-            ActionBar.Title = "Meetup Manager";
+            ViewModel = (LoginViewModel)DataContext;
 
             var loginButton = FindViewById<Button>(Resource.Id.loginButton);
             loginButton.Click += (sender, e) => LoginProcess();

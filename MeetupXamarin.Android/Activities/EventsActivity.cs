@@ -9,35 +9,31 @@ using System.Timers;
 using Android.Widget;
 using MeetupXamarin.Android.Helpers;
 using MeetupXamarin.Android.Adapters;
-using Support = Android.Support;
+using Toolbar = Android.Support.V7.Widget.Toolbar;
+
 
 namespace MeetupXamarin.Android.Activities
 {
     [Activity(Label = "EventsActivity")]
     public class EventsActivity : BaseActivity
     {
-        private EventsViewModel ViewModel;
+        EventsViewModel ViewModel;
         ListView ListView;
         bool allEvents;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.Events);
+            Title = TextFormatter.ShortenText(((EventsViewModel)DataContext).GroupName, 15);
+            SetActivityContentView(Resource.Layout.Events);
+            SetUpProgressDialog(this, "Loading Events...");
+
             allEvents = Settings.ShowAllEvents;
-
             ViewModel = (EventsViewModel)DataContext;
-
             ListView = FindViewById<ListView>(Resource.Id.eventsList);
+
             EventsAdapter eventsAdapter = new EventsAdapter(this, ViewModel.Events);
             ListView.Adapter = eventsAdapter;
-
-            SetUpProgressDialog(this, "Loading Events...");
-            SetActionBar(FindViewById<Toolbar>(Resource.Id.support_toolbar));
-
-            ActionBar.Title = TextFormatter.ShortenText(ViewModel.GroupName, 15);
-            ActionBar.SetDisplayHomeAsUpEnabled(true);
-            ActionBar.SetHomeButtonEnabled(true);
 
             ViewModel.Events.CollectionChanged += (s, e) =>
             {
