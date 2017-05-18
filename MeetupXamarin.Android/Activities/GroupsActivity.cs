@@ -5,12 +5,15 @@ using MeetupXamarin.Core.Helpers;
 using System.Timers;
 using Android.Widget;
 using MeetupXamarin.Android.Adapters;
-using Toolbar = Android.Support.V7.Widget.Toolbar;
+using Android.Support.V4.Widget;
+using static Android.Support.V4.Widget.SwipeRefreshLayout;
+using System;
+using MeetupXamarin.Android.Activities.Base;
 
 namespace MeetupXamarin.Android.Activities
 {
     [Activity(Label = "GroupsActivity")]
-    public class GroupsActivity : BaseActivity
+    public class GroupsActivity : BaseRefreshableActivity
     {
         GroupsViewModel ViewModel;
         ListView ListView;
@@ -20,14 +23,14 @@ namespace MeetupXamarin.Android.Activities
         {
             base.OnCreate(savedInstanceState);
             Title = "Groups";
-            SetActivityContentView(Resource.Layout.Groups);
+            SetActivityContentView(Resource.Layout.Groups, Resource.Id.groups_layout);
             SetUpProgressDialog(this, "Loading Groups...");
 
             ViewModel = (GroupsViewModel)DataContext;
             managerMode = Settings.OrganizerMode;
             ListView = FindViewById<ListView>(Resource.Id.groupsList);
 
-            GroupsAdapter groupsAdapter = new GroupsAdapter(this, ViewModel.Groups);
+            var groupsAdapter = new GroupsAdapter(this, ViewModel.Groups);
             ListView.Adapter = groupsAdapter;
 
             ViewModel.Groups.CollectionChanged += (s, e) =>

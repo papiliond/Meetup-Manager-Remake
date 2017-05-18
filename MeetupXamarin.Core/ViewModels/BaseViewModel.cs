@@ -76,6 +76,8 @@ namespace MeetupXamarin.Core.ViewModels
 
         public Action<int> FinishedFirstLoad { get; set; }
 
+        public Action FinishedLoad { get; set; }
+
         public ICommand LoadMoreCommand
         {
             get { return loadMoreCommand ?? (loadMoreCommand = new Command(async () => await ExecuteLoadMoreCommand())); }

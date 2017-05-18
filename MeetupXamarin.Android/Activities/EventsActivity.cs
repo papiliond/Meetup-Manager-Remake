@@ -10,12 +10,12 @@ using Android.Widget;
 using MeetupXamarin.Android.Helpers;
 using MeetupXamarin.Android.Adapters;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
-
+using MeetupXamarin.Android.Activities.Base;
 
 namespace MeetupXamarin.Android.Activities
 {
     [Activity(Label = "EventsActivity")]
-    public class EventsActivity : BaseActivity
+    public class EventsActivity : BaseRefreshableActivity
     {
         EventsViewModel ViewModel;
         ListView ListView;
@@ -25,7 +25,7 @@ namespace MeetupXamarin.Android.Activities
         {
             base.OnCreate(savedInstanceState);
             Title = TextFormatter.ShortenText(((EventsViewModel)DataContext).GroupName, 15);
-            SetActivityContentView(Resource.Layout.Events);
+            SetActivityContentView(Resource.Layout.Events, Resource.Id.events_layout);
             SetUpProgressDialog(this, "Loading Events...");
 
             allEvents = Settings.ShowAllEvents;

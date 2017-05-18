@@ -75,6 +75,7 @@ namespace MeetupXamarin.Core.ViewModels
             } finally
             {
                 FinishedFirstLoad?.Invoke(index);
+                FinishedLoad?.Invoke();
                 IsBusy = false;
             }
         }

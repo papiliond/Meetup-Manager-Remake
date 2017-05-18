@@ -28,7 +28,7 @@ namespace MeetupXamarin.Android.Activities
             base.OnCreate(savedInstanceState);
             InitializeViewModel();
             
-            ((BaseViewModel)DataContext).ExecutedRefreshCommand += OnRefreshExecuted;
+            ((BaseViewModel)DataContext).ExecutedRefreshCommand += OnFirstRefreshExecuted;
             ((BaseViewModel)DataContext).FinishedFirstLoad += (index) => OnFirstLoadFinished();
         }
 
@@ -49,7 +49,7 @@ namespace MeetupXamarin.Android.Activities
             ProgressDialog.SetMessage(message);
         }
 
-        protected void SetActivityContentView(int layoutResId)
+        protected virtual void SetActivityContentView(int layoutResId)
         {
             View view = LayoutInflater.Inflate(layoutResId, null);
             SetUpToolbar(view);
@@ -90,10 +90,12 @@ namespace MeetupXamarin.Android.Activities
             return base.OnOptionsItemSelected(item);
         }
 
-        public void OnRefreshExecuted ()
+        public void OnFirstRefreshExecuted ()
         {
             if (ProgressDialog != null)
                 ProgressDialog.Show();
+            ((BaseViewModel)DataContext).ExecutedRefreshCommand -= OnFirstRefreshExecuted;
+
         }
 
         public void OnFirstLoadFinished ()

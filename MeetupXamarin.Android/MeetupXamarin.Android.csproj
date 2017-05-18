@@ -159,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activities\Base\BaseActivity.cs" />
+    <Compile Include="Activities\Base\BaseRefreshableActivity.cs" />
     <Compile Include="Activities\EventActivity.cs" />
     <Compile Include="Activities\EventsActivity.cs" />
     <Compile Include="Activities\GroupsActivity.cs" />

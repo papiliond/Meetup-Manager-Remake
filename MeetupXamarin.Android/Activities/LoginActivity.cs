@@ -51,6 +51,7 @@ namespace MeetupXamarin.Android.Activities
                     new Uri(MeetupService.RedirectUrl),
                     new Uri(MeetupService.AccessTokenUrl));
 
+                auth.IsLoadableRedirectUri = false;
                 auth.AllowCancel = true;
                 // If authorization succeeds or is canceled, .Completed will be fired.
                 auth.Completed += async (succeed, ee) =>
