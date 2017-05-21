@@ -7,10 +7,10 @@ using Newtonsoft.Json;
 using Android.App;
 using System.Timers;
 using Android.Widget;
-using MeetupXamarin.Android.Helpers;
 using MeetupXamarin.Android.Adapters;
-using Toolbar = Android.Support.V7.Widget.Toolbar;
+using SearchView = Android.Support.V7.Widget.SearchView;
 using MeetupXamarin.Android.Activities.Base;
+using static Android.Widget.AdapterView;
 
 namespace MeetupXamarin.Android.Activities
 {
@@ -18,26 +18,38 @@ namespace MeetupXamarin.Android.Activities
     public class EventsActivity : BaseRefreshableActivity
     {
         EventsViewModel ViewModel;
+        EventAdapter EventAdapter;
         ListView ListView;
+        SearchView SearchView;
         bool allEvents;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            Title = TextFormatter.ShortenText(((EventsViewModel)DataContext).GroupName, 15);
+            Title = ((EventsViewModel)DataContext).GroupName;
+
             SetActivityContentView(Resource.Layout.Events, Resource.Id.events_layout);
+            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+            SupportActionBar.SetHomeButtonEnabled(true);
             SetUpProgressDialog(this, "Loading Events...");
 
             allEvents = Settings.ShowAllEvents;
             ViewModel = (EventsViewModel)DataContext;
             ListView = FindViewById<ListView>(Resource.Id.eventsList);
+            SearchView = FindViewById<SearchView>(Resource.Id.events_searchview);
+            EventAdapter = new EventAdapter(this, ViewModel.Events);
+            ListView.Adapter = EventAdapter;
 
-            EventsAdapter eventsAdapter = new EventsAdapter(this, ViewModel.Events);
-            ListView.Adapter = eventsAdapter;
+            #region Events
+
+            ListView.ItemClick += GoToEvent;
+
+            SearchView.QueryTextChange += (s, e) => EventAdapter.Filter(e.NewText);
+            SearchView.QueryTextSubmit += (s, e) => EventAdapter.Filter(e.Query);
 
             ViewModel.Events.CollectionChanged += (s, e) =>
             {
-                eventsAdapter.UpdateListView();
+                EventAdapter.UpdateListView();
             };
 
             ViewModel.FinishedFirstLoad += (index) =>
@@ -50,19 +62,13 @@ namespace MeetupXamarin.Android.Activities
                 timer.Elapsed += (s, e) => RunOnUiThread(() => ListView.SetSelection(index));
             };
 
-            ListView.ItemClick += (sender, e) =>
-            {
-                if (ViewModel.Events[e.Position] != null)
-                    ViewModel.GoToEventCommand.Execute(ViewModel.Events[e.Position]);
-            };
-
+            #endregion
         }
 
         protected override void InitializeViewModel()
         {
             var vmAssembly = Intent.GetStringExtra("vmAssembly");
             var vmNamespace = Intent.GetStringExtra("vmNamespace");
-
             var group = JsonConvert.DeserializeObject<Group>(Intent.GetStringExtra("arg_0"));
 
             DataContext = Activator.CreateInstance(assemblyName: vmAssembly, typeName: vmNamespace, args: new object[] { group },
@@ -82,6 +88,11 @@ namespace MeetupXamarin.Android.Activities
                 return;
 
             ViewModel.RefreshCommand.Execute(null);
+        }
+
+        protected void GoToEvent(object sender, ItemClickEventArgs e)
+        {
+            ViewModel.GoToEventCommand.Execute(ViewModel.Events[e.Position]);
         }
 
     }

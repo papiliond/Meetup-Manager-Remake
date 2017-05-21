@@ -65,9 +65,6 @@ namespace MeetupXamarin.Android.Activities
                 {
                     SetSupportActionBar(Toolbar);
                     SupportActionBar.Title = Title == null ? null : Title;
-
-                    SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-                    SupportActionBar.SetHomeButtonEnabled(true);
                 }
                 else
                     Toolbar.Visibility = ViewStates.Gone;

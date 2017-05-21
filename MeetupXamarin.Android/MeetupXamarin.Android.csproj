@@ -165,8 +165,9 @@
     <Compile Include="Activities\GroupsActivity.cs" />
     <Compile Include="Activities\LaunchActivity.cs" />
     <Compile Include="Activities\LoginActivity.cs" />
-    <Compile Include="Adapters\EventsAdapter.cs" />
-    <Compile Include="Adapters\GroupsAdapter.cs" />
+    <Compile Include="Adapters\MemberAdapter.cs" />
+    <Compile Include="Adapters\EventAdapter.cs" />
+    <Compile Include="Adapters\GroupAdapter.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\ImageFormatter.cs" />
     <Compile Include="Helpers\TextFormatter.cs" />
@@ -199,7 +200,7 @@
     <AndroidResource Include="Resources\layout\toolbar.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Menu\menu.axml">
+    <AndroidResource Include="Resources\menu\menu.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\Groups.axml">
@@ -212,6 +213,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\eventlist_item.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Event.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

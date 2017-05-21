@@ -33,7 +33,7 @@ namespace MeetupXamarin.Core.ViewModels
             groups.Clear();
             OnPropertyChanged("Groups");
             CanLoadMore = true;
-            this.LoadMoreCommand.Execute(null);
+            LoadMoreCommand.Execute(null);
         }
 
         protected override async Task ExecuteLoadMoreCommand()

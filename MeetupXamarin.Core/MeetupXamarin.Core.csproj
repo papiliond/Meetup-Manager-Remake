@@ -85,6 +85,7 @@
     <Compile Include="ViewModels\EventViewModel.cs" />
     <Compile Include="ViewModels\GroupsViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\MemberViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ModernHttpClient, Version=2.4.2.0, Culture=neutral, processorArchitecture=MSIL">

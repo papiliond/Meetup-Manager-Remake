@@ -103,7 +103,8 @@ namespace MeetupXamarin.Core.ViewModels
             }
             else
             {
-                messageDialog.SendMessage("Please try again using you meetup credentials.", "Login Failure");
+                //TODO: Begin Invoke On Main Thread
+                messageDialog.SendMessage("Please try again using your meetup credentials.", "Login Failure");
                 IsBusy = false;
                
             }

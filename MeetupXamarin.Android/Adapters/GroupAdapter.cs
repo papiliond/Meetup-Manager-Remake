@@ -8,12 +8,12 @@ using MeetupXamarin.Android.Helpers;
 
 namespace MeetupXamarin.Android.Adapters
 {
-    public class GroupsAdapter : BaseAdapter<Group>
+    public class GroupAdapter : BaseAdapter<Group>
     {
         public ObservableCollection<Group> Items { get; set; }
         private Activity activity;
 
-        public GroupsAdapter (Activity activity, ObservableCollection<Group> items)
+        public GroupAdapter (Activity activity, ObservableCollection<Group> items)
         {
             this.activity = activity;
             Items = items;

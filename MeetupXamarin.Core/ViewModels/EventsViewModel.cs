@@ -103,13 +103,14 @@ namespace MeetupXamarin.Core.ViewModels
             get { return goToEventCommand ?? (goToEventCommand = new Command<Event>(ExecuteGoToEventCommand)); }
         }
 
-        void ExecuteGoToEventCommand(Event e)
+        void ExecuteGoToEventCommand(Event @event)
         {
             if (IsBusy)
                 return;
 
-            //TODO: Parameter
-            IoC.Resolve<INavigationService>().Navigate<EventViewModel>();
+            object[] args = new object[] { @event, GroupId, GroupName };
+
+            IoC.Resolve<INavigationService>().Navigate<EventViewModel>(args);
         }
 
         Command goToStatsCommand;

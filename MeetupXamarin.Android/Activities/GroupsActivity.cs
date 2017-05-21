@@ -16,6 +16,7 @@ namespace MeetupXamarin.Android.Activities
     public class GroupsActivity : BaseRefreshableActivity
     {
         GroupsViewModel ViewModel;
+        GroupAdapter GroupAdapter;
         ListView ListView;
         bool managerMode;
 
@@ -24,18 +25,22 @@ namespace MeetupXamarin.Android.Activities
             base.OnCreate(savedInstanceState);
             Title = "Groups";
             SetActivityContentView(Resource.Layout.Groups, Resource.Id.groups_layout);
+            SupportActionBar.SetDisplayHomeAsUpEnabled(false);
+            SupportActionBar.SetHomeButtonEnabled(false);
             SetUpProgressDialog(this, "Loading Groups...");
 
             ViewModel = (GroupsViewModel)DataContext;
             managerMode = Settings.OrganizerMode;
             ListView = FindViewById<ListView>(Resource.Id.groupsList);
 
-            var groupsAdapter = new GroupsAdapter(this, ViewModel.Groups);
-            ListView.Adapter = groupsAdapter;
+            GroupAdapter = new GroupAdapter(this, ViewModel.Groups);
+            ListView.Adapter = GroupAdapter;
+
+            #region Events
 
             ViewModel.Groups.CollectionChanged += (s, e) =>
             {
-                groupsAdapter.UpdateListView();
+                GroupAdapter.UpdateListView();
             };
 
             ViewModel.FinishedFirstLoad += (index) =>
@@ -53,6 +58,8 @@ namespace MeetupXamarin.Android.Activities
                 if (ViewModel.Groups[e.Position] != null)
                     ViewModel.GoToGroupCommand.Execute(ViewModel.Groups[e.Position]);
             };
+
+            #endregion
         }
     
         protected override void OnStart()
