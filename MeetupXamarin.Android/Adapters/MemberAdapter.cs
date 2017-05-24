@@ -6,6 +6,8 @@ using Android.Views;
 using Android.Widget;
 using System.Collections.ObjectModel;
 using MeetupXamarin.Core.ViewModels;
+using MeetupXamarin.Android.Helpers;
+using ImageViews.Rounded;
 
 namespace MeetupXamarin.Android.Adapters
 {
@@ -50,7 +52,14 @@ namespace MeetupXamarin.Android.Adapters
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            throw new NotImplementedException();
+            var view = convertView ?? Activity.LayoutInflater.Inflate(Resource.Layout.memberlist_item, parent, false);
+
+            var memberPhotoBitmap = ImageFormatter.GetBitmapFromUrl(FilteredItems[position].ThumbLink);
+            view.FindViewById<RoundedImageView>(Resource.Id.thumblinkPhoto).SetImageBitmap(memberPhotoBitmap);
+            view.FindViewById<TextView>(Resource.Id.memberName).Text = FilteredItems[position].Name;
+            view.FindViewById<CheckBox>(Resource.Id.checkIn_checkbox).Checked = FilteredItems[position].CheckedIn;
+
+            return view;
         }
 
         public void UpdateListView()

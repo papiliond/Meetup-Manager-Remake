@@ -10,7 +10,7 @@
     <string name="login">Login to Meetup</string>
     <string name="login_details">To get started with Meetup Manager please login to your Meetup.com account. After you login you will be taken to a list of your Meetup.com groups.</string>
     <string name="logging_in">Logging into Meetup.com</string>
-    <string name="tap_to_login">Tap to checkin:</string>
+    <string name="tap_to_checkin">Tap to check in:</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="new_member">New Member</string>

@@ -11,11 +11,11 @@ namespace MeetupXamarin.Android.Adapters
     public class GroupAdapter : BaseAdapter<Group>
     {
         public ObservableCollection<Group> Items { get; set; }
-        private Activity activity;
+        private Activity Activity;
 
         public GroupAdapter (Activity activity, ObservableCollection<Group> items)
         {
-            this.activity = activity;
+            this.Activity = activity;
             Items = items;
         }
 
@@ -49,7 +49,7 @@ namespace MeetupXamarin.Android.Adapters
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            var view = convertView ?? activity.LayoutInflater.Inflate(Resource.Layout.grouplist_item, parent, false);
+            var view = convertView ?? Activity.LayoutInflater.Inflate(Resource.Layout.grouplist_item, parent, false);
 
             var groupPhotoBitmap = ImageFormatter.GetBitmapFromUrl(Items[position].PhotoLink);
             view.FindViewById<RoundedImageView>(Resource.Id.groupPhoto).SetImageBitmap(groupPhotoBitmap);

@@ -47,10 +47,8 @@ namespace MeetupXamarin.Android.Activities
             SearchView.QueryTextChange += (s, e) => EventAdapter.Filter(e.NewText);
             SearchView.QueryTextSubmit += (s, e) => EventAdapter.Filter(e.Query);
 
-            ViewModel.Events.CollectionChanged += (s, e) =>
-            {
-                EventAdapter.UpdateListView();
-            };
+            ViewModel.Events.CollectionChanged += (s, e) => EventAdapter.UpdateListView();
+
 
             ViewModel.FinishedFirstLoad += (index) =>
             {
