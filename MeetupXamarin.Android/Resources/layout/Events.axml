@@ -3,24 +3,24 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-  <include
-      android:id="@+id/support_toolbar"
-      layout="@layout/toolbar" />
-  <android.support.v7.widget.SearchView
-      android:id="@+id/events_searchview"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:queryHint="Search..."
-      android:clickable="true"
-      android:background="#FFFFFF" />
-  <android.support.v4.widget.SwipeRefreshLayout
-      android:id="@+id/events_layout"
-      android:orientation="vertical"
-      android:layout_width="match_parent"
-      android:layout_height="fill_parent">
-    <ListView
-        android:id="@+id/eventsList"
+    <include
+        android:id="@+id/support_toolbar"
+        layout="@layout/toolbar" />
+    <android.support.v7.widget.SearchView
+        android:id="@+id/events_searchview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-  </android.support.v4.widget.SwipeRefreshLayout>
+        android:layout_height="wrap_content"
+        android:queryHint="Search..."
+        android:clickable="true"
+        android:background="#FFFFFF" />
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/events_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent">
+        <ListView
+            android:id="@+id/eventsList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

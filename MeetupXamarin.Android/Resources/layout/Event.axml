@@ -2,34 +2,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+  
     <include
         android:id="@+id/support_toolbar"
         layout="@layout/toolbar"
-        android:layout_alignParentTop="true" />
-    <LinearLayout
-        android:id="@+id/center_linearlayout"
+        android:layout_alignParentTop="true" 
+        />
+  
+    <android.support.v7.widget.SearchView
+        android:id="@+id/event_searchview"
+        android:layout_below="@id/support_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/support_toolbar">
-        <android.support.v7.widget.SearchView
-            android:id="@+id/event_searchview"
+        android:queryHint="Search..."
+        android:clickable="true"
+        android:background="#FFFFFF" />
+  
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/event_swipeRefreshLayout"
+        android:layout_below="@id/event_searchview"
+        android:layout_above="@+id/event_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent">
+        <ListView
+            android:id="@+id/membersList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:queryHint="Search..."
-            android:clickable="true"
-            android:background="#FFFFFF" />
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/event_layout"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="fill:parent">
-            <ListView
-                android:id="@+id/membersList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </android.support.v4.widget.SwipeRefreshLayout>
-    </LinearLayout>
+            android:layout_height="match_parent" />   
+    
+    </android.support.v4.widget.SwipeRefreshLayout>
+  
     <LinearLayout
+        android:id="@id/event_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -44,8 +47,7 @@
             android:textSize="15sp"
             android:editable="false"
             android:inputType="none"
-            android:text="@string/tap_to_checkin"
-            android:textColor="#FFFFFF"
-            />
+            android:textColor="#FFFFFF" />
     </LinearLayout>
+  
 </RelativeLayout>

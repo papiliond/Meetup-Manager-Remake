@@ -215,13 +215,13 @@
     <AndroidResource Include="Resources\layout\eventlist_item.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\Event.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\layout\memberlist_item.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\emptyview.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Event.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

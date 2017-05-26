@@ -20,6 +20,7 @@ namespace MeetupXamarin.Android.Activities
         MemberAdapter MemberAdapter;
         ListView ListView;
         SearchView SearchView;
+        TextView RSVPCounterTextView;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -27,34 +28,31 @@ namespace MeetupXamarin.Android.Activities
             ViewModel = (EventViewModel)DataContext;
             Title = ViewModel.EventName;
 
-            SetActivityContentView(Resource.Layout.Event, Resource.Id.event_layout);
+            SetActivityContentView(Resource.Layout.Event, Resource.Id.event_swipeRefreshLayout);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetHomeButtonEnabled(true);
             SetUpProgressDialog(this, "Loading Event...");
 
             ListView = FindViewById<ListView>(Resource.Id.membersList);
-            //ListView.EmptyView = Resource.Layout
+            ListView.EmptyView = LayoutInflater.Inflate(Resource.Layout.emptyview, null);
+
             SearchView = FindViewById<SearchView>(Resource.Id.event_searchview);
+
             MemberAdapter = new MemberAdapter(this, ViewModel.Members);
             ListView.Adapter = MemberAdapter;
+            ListView.ChoiceMode = ChoiceMode.Multiple;
 
-            var tapToCheckinText = FindViewById<TextView>(Resource.Id.taptocheckin_text);
-            tapToCheckinText.Text = tapToCheckinText.Text + " " + ViewModel.RSVPCount;
+            RSVPCounterTextView = FindViewById<TextView>(Resource.Id.taptocheckin_text);
 
             #region Events
 
             SearchView.QueryTextChange += (s, e) => MemberAdapter.Filter(e.NewText);
+
             SearchView.QueryTextSubmit += (s, e) => MemberAdapter.Filter(e.Query);
 
-            ViewModel.Members.CollectionChanged += (s, e) => MemberAdapter.UpdateListView();
-
-
-            ListView.ItemClick += (s, e) =>
+            ViewModel.Members.CollectionChanged += (s, e) =>
             {
-                if (ListView.SelectedItem == null)
-                    return;
-
-                ViewModel.CheckInCommand.Execute(ViewModel.Members[e.Position]);
+                MemberAdapter.UpdateListView();
             };
 
             ViewModel.FinishedFirstLoad += (index) =>
@@ -62,13 +60,21 @@ namespace MeetupXamarin.Android.Activities
                 if (ViewModel.Members.Count == 0)
                     return;
 
-                Timer timer = new Timer();
-                timer.Interval = 1000;
+                Timer timer = new Timer()
+                {
+                    Interval = 1000
+                };
                 timer.Elapsed += (s, e) => RunOnUiThread(() => ListView.SetSelection(index));
             };
 
-            #endregion
+            MemberCheckedIn += (int pos) =>
+            {
+                ViewModel.CheckInCommand?.Execute(ViewModel.Members[pos]);
+            };
 
+            ViewModel.CountRefreshed += (s, e) => RefreshRSVPCounterTextView();
+
+            #endregion
         }
 
         protected override void InitializeViewModel()
@@ -98,7 +104,16 @@ namespace MeetupXamarin.Android.Activities
                 return;
 
             ViewModel.RefreshCommand.Execute(null);
-
         }
+
+        public Action RefreshRSVPCounter;
+
+        public Action<int> MemberCheckedIn;
+
+        public void RefreshRSVPCounterTextView ()
+        {
+            RSVPCounterTextView.Text = Resources.GetString(Resource.String.tap_to_checkin) + " " + ViewModel.RSVPCount;
+        }
+        
     }
 }

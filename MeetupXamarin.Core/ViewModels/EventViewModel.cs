@@ -134,6 +134,7 @@ namespace MeetupXamarin.Core.ViewModels
             }
             finally
             {
+                FinishedLoad?.Invoke();
                 FinishedFirstLoad?.Invoke(index);
                 IsBusy = false;
             }
@@ -159,7 +160,6 @@ namespace MeetupXamarin.Core.ViewModels
                 await dataService.CheckInMember(new EventRSVP(eventId, member.Member.MemberId.ToString(), eventName, groupId, GroupName, EventDate));
 
             member.CheckedIn = !member.CheckedIn;
-
 
             RefreshCount();
 
@@ -280,9 +280,12 @@ namespace MeetupXamarin.Core.ViewModels
                 });
         }
 
+        public EventHandler CountRefreshed;
+
         void RefreshCount()
         {
             RSVPCount = members.Where(m => m.CheckedIn).ToList().Count + "/" + members.Count;
+            CountRefreshed?.Invoke(this, new EventArgs());
         }
 
         #region IRemove implementation
@@ -308,8 +311,6 @@ namespace MeetupXamarin.Core.ViewModels
         }
 
         #endregion
-
-
 
     }
 }

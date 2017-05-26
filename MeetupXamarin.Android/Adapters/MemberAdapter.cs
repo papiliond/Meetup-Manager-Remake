@@ -8,18 +8,21 @@ using System.Collections.ObjectModel;
 using MeetupXamarin.Core.ViewModels;
 using MeetupXamarin.Android.Helpers;
 using ImageViews.Rounded;
+using MeetupXamarin.Android.Activities;
+using Android.Util;
 
 namespace MeetupXamarin.Android.Adapters
 {
-    class MemberAdapter : BaseAdapter<MemberViewModel>
+    class MemberAdapter : BaseAdapter<MemberViewModel>, CompoundButton.IOnCheckedChangeListener
     {
-        protected ObservableCollection<MemberViewModel> Items { get; set; }
-        protected ObservableCollection<MemberViewModel> FilteredItems { get; set; }
-        Activity Activity;
+        ObservableCollection<MemberViewModel> Items { get; set; }
+        ObservableCollection<MemberViewModel> FilteredItems { get; set; }
+
+        EventActivity Activity;
 
         public MemberAdapter (Activity activity, ObservableCollection<MemberViewModel> items)
         {
-            Activity = activity;
+            Activity = (EventActivity)activity;
             Items = items;
             FilteredItems = items;
         }
@@ -53,11 +56,16 @@ namespace MeetupXamarin.Android.Adapters
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
             var view = convertView ?? Activity.LayoutInflater.Inflate(Resource.Layout.memberlist_item, parent, false);
+            var checkBox = view.FindViewById<CheckBox>(Resource.Id.checkIn_checkbox);
+
+            checkBox.SetOnCheckedChangeListener(null);
 
             var memberPhotoBitmap = ImageFormatter.GetBitmapFromUrl(FilteredItems[position].ThumbLink);
             view.FindViewById<RoundedImageView>(Resource.Id.thumblinkPhoto).SetImageBitmap(memberPhotoBitmap);
-            view.FindViewById<TextView>(Resource.Id.memberName).Text = FilteredItems[position].Name;
-            view.FindViewById<CheckBox>(Resource.Id.checkIn_checkbox).Checked = FilteredItems[position].CheckedIn;
+            view.FindViewById<TextView>(Resource.Id.memberName).Text = TextFormatter.ShortenText(FilteredItems[position].Name, 18);
+            checkBox.Checked = FilteredItems[position].CheckedIn;
+            checkBox.Tag = position;
+            checkBox.SetOnCheckedChangeListener(this);
 
             return view;
         }
@@ -84,6 +92,12 @@ namespace MeetupXamarin.Android.Adapters
 
             return Items.Select(i => i)
                 .Where(i => i.Name.ToLower().Contains(filterText)).ToList();
+        }
+
+        public void OnCheckedChanged(CompoundButton buttonView, bool isChecked)
+        {
+            var position = (int)buttonView.Tag;
+            Activity.MemberCheckedIn?.Invoke(position);
         }
 
     }

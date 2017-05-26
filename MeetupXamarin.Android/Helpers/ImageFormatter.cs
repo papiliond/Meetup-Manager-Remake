@@ -22,9 +22,17 @@ namespace MeetupXamarin.Android.Helpers
 
             using (var webClient = new WebClient())
             {
-                var imageBytes = webClient.DownloadData(url);
-                if (imageBytes != null && imageBytes.Length > 0)
-                    image = BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
+                try
+                {
+                    var imageBytes = webClient.DownloadData(url);
+                    if (imageBytes != null && imageBytes.Length > 0)
+                        image = BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
+                } 
+                catch (Exception e)
+                {
+                    
+                }
+
             }
 
             return image;

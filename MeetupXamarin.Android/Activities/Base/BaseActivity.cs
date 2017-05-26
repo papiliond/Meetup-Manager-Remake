@@ -16,7 +16,7 @@ namespace MeetupXamarin.Android.Activities
         protected object DataContext { get; set; }
         protected ProgressDialog ProgressDialog { get; set; }
         protected Toolbar Toolbar { get; set; }
-        protected bool usesToolbar { get; set; } = true;
+        protected bool UsesToolbar { get; set; } = true;
 
         public BaseActivity()
         {
@@ -61,10 +61,10 @@ namespace MeetupXamarin.Android.Activities
             Toolbar = view.FindViewById<Toolbar>(Resource.Id.support_toolbar);
             if (Toolbar != null)
             {
-                if (usesToolbar)
+                if (UsesToolbar)
                 {
                     SetSupportActionBar(Toolbar);
-                    SupportActionBar.Title = Title == null ? null : Title;
+                    SupportActionBar.Title = Title ?? null;
                 }
                 else
                     Toolbar.Visibility = ViewStates.Gone;

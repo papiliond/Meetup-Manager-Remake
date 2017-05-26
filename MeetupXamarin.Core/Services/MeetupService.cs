@@ -63,7 +63,7 @@ namespace MeetupXamarin.Core.Services
                 var request = string.Format(Settings.OrganizerMode ? GetGroupsOrganizerUrl : GetGroupsUrl, offset, memberId, Settings.AccessToken);
 
                 var response = await client.GetStringAsync(request).ConfigureAwait(false);
-
+               
                 return await DeserializeObjectAsync<GroupsRootObject>(response);
             }
         }

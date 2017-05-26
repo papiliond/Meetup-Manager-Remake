@@ -48,8 +48,10 @@ namespace MeetupXamarin.Android.Activities
                 if (ViewModel.Groups.Count == 0)
                     return;
 
-                Timer timer = new Timer();
-                timer.Interval = 1000;
+                Timer timer = new Timer()
+                {
+                    Interval = 1000
+                };
                 timer.Elapsed += (s, e) => RunOnUiThread(() => ListView.SetSelection(index));
             };
 
